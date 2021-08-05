@@ -1,0 +1,11 @@
+@import 'Config';
+
+body {
+    background-color: $lightPrimary;
+    padding: 0px;
+    margin: 0px;
+    font-family: sans-serif, Arial, Helvetica;
+}
+
+@import 'Header';
+@import 'Searchbar';
