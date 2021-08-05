@@ -1,4 +1,5 @@
 import React from 'react';
+import {Link } from 'react-router-dom';
 
 // TODO: when placing logo here make sure when it is clicked it returns to homepage
 const Header:React.FC = () => {
@@ -10,8 +11,8 @@ const Header:React.FC = () => {
             <div></div>
             <div></div>
             <div>
-                <a href="#">Login</a>
-                <a href="#" id='signupLink'>Signup</a>
+                <Link to="/Login" >Login</Link>
+                <Link to="/Signup" id='signupLink'>Signup</Link>
             </div>
         </header>
     )
