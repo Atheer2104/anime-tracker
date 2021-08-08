@@ -2,11 +2,13 @@
 
 body {
     background-color: $lightPrimary;
-    padding: 0px;
-    margin: 0px;
+    padding: 0;
+    margin: 0;
     font-family: sans-serif, Arial, Helvetica;
 }
 
 @import 'Header';
 @import 'Searchbar';
 @import 'Signup&Login';
+@import 'Animecard';
+@import 'Animeinfo';

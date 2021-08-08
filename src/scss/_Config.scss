@@ -1,3 +1,10 @@
 $lightPrimary: #FBF9FF;
 $darkPrimary: #02020A;
 $accent: #8783D1;
+
+
+@mixin set-size($width) {
+    width: $width;
+    height: auto;
+}
+

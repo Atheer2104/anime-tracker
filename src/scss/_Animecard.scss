@@ -1,0 +1,35 @@
+.Animecard {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-evenly; 
+    
+    a {
+        text-decoration: none;
+        cursor: pointer;
+    }
+    a:visited {
+        color: black;
+    }
+
+    div {
+        max-width: 260px;
+        //background-color: crimson;
+        padding: 1rem;
+
+        img {
+            @include set-size(250px);
+        }
+     
+        span {
+            display: block;
+            text-overflow: ellipsis;
+            word-wrap: break-word;
+            overflow: scroll;
+            max-height: 3.6em;
+            line-height: 1.8em;
+            font-size:large;
+            padding: 0.1rem;
+            font-weight:bolder;
+        }
+    }
+}
