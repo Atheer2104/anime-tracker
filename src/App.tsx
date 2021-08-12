@@ -7,6 +7,8 @@ import Signup from "./components/Signup";
 import Login from "./components/Login";
 import Animecards from "./components/Animecards";
 import Animeinfo from "./components/Animeinfo";
+import Browselist from './components/Browselist';
+import BrowselstSection from './components/BrowselstSection';
 
 export interface IAnime {
   synopsis: string;
@@ -16,7 +18,7 @@ export interface IAnime {
   nextRelease: string | null;
   subtype: string;
   status: string;
-  posterImage: {small: string};
+  posterImage: { small: string};
   coverImage: { large: string}
 }
 
@@ -29,7 +31,7 @@ export interface Users {
 }
 
 function App() {  
-  const initialAnimeState: IAnime[] = [
+  const initialAnimeState: IAnime[] = [ 
     {
       synopsis: "It has been two and a half years since Naruto Uzumaki left Konohagakure, the Hidden Leaf Village, for intense training following events which fueled his desire to be stronger. Now Akatsuki, the mysterious organization of elite rogue ninja, is closing in on their grand plan which may threaten the safety of the entire shinobi world.\n\nAlthough Naruto is older and sinister events loom on the horizon, he has changed little in personality—still rambunctious and childish—though he is now far more confident and possesses an even greater determination to protect his friends and home. Come whatever may, Naruto will carry on with the fight for what is important to him, even at the expense of his own body, in the continuation of the saga about the boy who wishes to become Hokage.\n\n(Source: MAL Rewrite)",
       canonicalTitle: "Naruto: Shippuuden",
@@ -118,27 +120,57 @@ function App() {
       password: "1234"
     }
   ])
+
+  const [loggdeIn, setLoggedin] = useState<Boolean>(true);
   
+  const [favourites, setFavourites] = useState<IAnime[]>([])
+
+  const [planingtowatch, setplaningtowatch] = useState<IAnime[]>([])
+
+  const [watching, setwatching] = useState<IAnime[]>([])
+
+  const [completed, setcompleted] = useState<IAnime[]>([])
+
   return (
     <Router>
       <div className="App">
         <Switch>
+        <Route path='/Favourites'>
+            <Header loggedIn={loggdeIn}/>
+            <BrowselstSection Animes={favourites} setAnime={setAnime} title={'Favourites'}/>
+          </Route>
+        <Route path='/Planingtowatch'>
+            <Header loggedIn={loggdeIn}/>
+            <BrowselstSection Animes={planingtowatch} setAnime={setAnime} title={'Planing to Watch'}/>
+          </Route>
+        <Route path='/Watching'>
+            <Header loggedIn={loggdeIn}/>
+            <BrowselstSection Animes={watching} setAnime={setAnime} title={'Watching'}/>
+          </Route>
+        <Route path='/Completed'>
+            <Header loggedIn={loggdeIn}/>
+            <BrowselstSection Animes={completed} setAnime={setAnime} title={'Completed'}/>
+          </Route>
+        <Route path='/Browselist'>
+            <Header loggedIn={loggdeIn}/>
+            <Browselist />
+          </Route>
           <Route path='/Signup'>
-            <Header/>
-            <Signup users={users} setUsers={setUsers}/>
+            <Header loggedIn={loggdeIn}/>
+            <Signup users={users} setUsers={setUsers} setLoggedin={setLoggedin} />
           </Route>
           <Route path='/Login'>
-            <Header/>
-            <Login users={users}/>
+            <Header loggedIn={loggdeIn}/>
+            <Login users={users} setLoggedin={setLoggedin}/>
           </Route>
           <Route path='/Animeinfo'>
-            <Header />
-            <Animeinfo anime={anime}/>
+            <Header loggedIn={loggdeIn}/>
+            <Animeinfo anime={anime} action={[favourites, planingtowatch, watching, completed]} setAction={[setFavourites, setplaningtowatch, setwatching, setcompleted]}/>
             </Route>
           <Route path='/'>
-            <Header />
+            <Header loggedIn={loggdeIn}/>
             <SearchBar initialAnimeState={initialAnimeState} animes={animes} setAnimes={setAnimes}/>
-            <Animecards Animes={animes} setAnime={setAnime}/>
+            <Animecards Animes={animes} setAnime={setAnime} isLinkActive={true}/>
           </Route>
         </Switch>
       </div>

@@ -1,8 +1,8 @@
 import React from 'react'
-import Animecard from './Animecard'
+import Animecards from './Animecards'
 import { IAnime } from '../App';
 
-export interface IProps {
+interface IProps {
     Animes: ({
         synopsis: string;
         canonicalTitle: string;
@@ -19,15 +19,16 @@ export interface IProps {
         };
     })[]
     setAnime: (anime: IAnime) => void;
-    isLinkActive: Boolean
+    title: string
 }
 
-const Animecards: React.FC<IProps> = ({ Animes, setAnime, isLinkActive}) => {
+const BrowselstSection: React.FC<IProps> = ({ Animes, setAnime, title}) => {
     return (
-        <div className='Animecard'>
-           {Animes.map((anime) => (<Animecard anime={anime} setAnime={setAnime} isLinkActive={isLinkActive}/>))}
+        <div className='Browselist-section'>
+            <h1>{title}</h1>
+            <Animecards Animes={Animes} setAnime={setAnime} isLinkActive={false}/>
         </div>
     )
 }
 
-export default Animecards
+export default BrowselstSection

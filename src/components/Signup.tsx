@@ -1,13 +1,16 @@
 import React from 'react'
 import { useState } from 'react'
 import { Users } from "../App";
+import { useHistory } from 'react-router-dom';
 
 interface IProps {
     users: Users['users'],
-    setUsers: (user: Users['users']) => void
+    setUsers: (user: Users['users']) => void,
+    setLoggedin: (loggedin: Boolean) => void
 }
 
-const Signup: React.FC<IProps> = ({ users, setUsers }) => {
+const Signup: React.FC<IProps> = ({ users, setUsers, setLoggedin }) => {
+    const history = useHistory();
     const [input, setInput] = useState({
         email: "",
         username: "",
@@ -43,7 +46,8 @@ const Signup: React.FC<IProps> = ({ users, setUsers }) => {
             username: '',
             password: ''
         })
-
+        setLoggedin(true);
+        history.push('/');
         // TODO: redierect user to homepage after they have signed
     }
 

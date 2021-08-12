@@ -17,9 +17,8 @@ const SearchBar:React.FC<IProps> = ({ initialAnimeState, animes, setAnimes }) =>
         
         if (e.target.value === "") {   
             setAnimes(initialAnimeState)
-            console.log('initial state ')
         } else {
-            setAnimes(animes.filter((anime) => anime.canonicalTitle.toLowerCase().includes(e.target.value)))   
+            setAnimes(initialAnimeState.filter((anime) => anime.canonicalTitle.toLowerCase().includes(e.target.value)))   
         }
     }
 

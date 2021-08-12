@@ -1,0 +1,51 @@
+.container {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-evenly;
+
+    .list {
+        margin-top: 2.5rem;
+        width: 300px;
+        height: 300px;
+        
+
+        div {
+            width: 100%;
+            height: 100%;
+        }
+
+        p {
+            font-size: medium;
+            font-weight: bold;
+            margin: 0;
+            padding: 0.5rem;
+        }
+    }
+
+    #favorites {
+        background-color: #E73636;
+    }
+
+    #planing-to-watch {
+        background-color: #D78521;
+    }
+
+    #watching {
+        background-color: $accent;
+    }
+
+    #completed {
+        background-color: #688E26;
+    }
+    
+    a {
+        text-decoration: none;
+        cursor: pointer;
+        color:black
+    }
+
+    a:visited {
+        color: black;
+    }
+    
+}

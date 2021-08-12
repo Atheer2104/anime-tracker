@@ -1,6 +1,7 @@
 import React from 'react'
 import { useState } from 'react'
 import { Users } from "../App";
+import { useHistory } from 'react-router-dom';
 
 interface LoginUser {
     username: string,
@@ -8,10 +9,12 @@ interface LoginUser {
 }
 
 interface IProps {
-    users: Users['users']
+    users: Users['users'],
+    setLoggedin: (loggedin: Boolean) => void
 }
 
-const Login: React.FC<IProps> = ({ users }) => {
+const Login: React.FC<IProps> = ({ users, setLoggedin }) => {
+    const history = useHistory();
     const [input, setInput] = useState<LoginUser>({
         username: '',
         password: '',
@@ -33,16 +36,17 @@ const Login: React.FC<IProps> = ({ users }) => {
             return
         }
 
-        if (users.map((user) => user.username === input.username).includes(true)) {
+        if (users.map((user) => (user.username === input.username && user.password === input.password)).includes(true)) {
             alert('logged in');
             setInput({
                 username: '',
                 password: '',
             })
-            return
+            setLoggedin(true);
+            history.push('/');
+            return    
         } else {
             alert('user not found');    
-
             return
         }
 

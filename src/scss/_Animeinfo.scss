@@ -31,6 +31,43 @@
             font-size: large;
             font-weight: bold;
         }
+        
+        // TODO currently it's not very good optimised on mobile because of postition absolute but it's needed
+        .Animeinfo-actions {
+            position: absolute;
+            display: flex;
+            flex-flow: row wrap;
+            justify-content: flex-start;
+            padding: 0.2rem;
+            
+
+            button {
+                display: block;
+                padding: 0.4rem;
+                font-size: medium;
+                font-weight: lighter;
+                box-sizing: border-box;
+                width: 100%;
+                margin-top: 0.5rem;
+                border-radius: 8px;
+            }
+
+            #favorites {
+                background-color: #E73636;
+            }
+
+            #planing-to-watch {
+                background-color: #D78521;
+            }
+
+            #watching {
+                background-color: $accent;
+            }
+
+            #completed {
+                background-color: #688E26;
+            }
+        }
     }
 
     &-container {
@@ -41,6 +78,7 @@
         width: 75%;
         margin-left: 4rem;
         margin-top: 2rem;
+        margin-bottom: 2rem;
         padding: 0.5rem;
 
         label {

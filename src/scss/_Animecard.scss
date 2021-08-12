@@ -7,6 +7,11 @@
         text-decoration: none;
         cursor: pointer;
     }
+    
+    .disable-link {
+        pointer-events: none;
+    }
+
     a:visited {
         color: black;
     }

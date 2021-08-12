@@ -19,11 +19,12 @@ interface IProps {
         };
     }, 
     setAnime: (anime: IAnime) => void;
+    isLinkActive: Boolean
 }
 
-const Animecard: React.FC<IProps> = ({ anime, setAnime}) => {
+const Animecard: React.FC<IProps> = ({ anime, setAnime, isLinkActive}) => {
     return (
-            <Link to='/Animeinfo' onClick={() => setAnime(anime)}>
+            <Link to='/Animeinfo' onClick={() => setAnime(anime)} className={isLinkActive ? '' : 'disable-link '}>
                 <div>
                     <img src={anime.posterImage.small} alt='Anime poster'></img>
                     <span>{anime.canonicalTitle}</span>
