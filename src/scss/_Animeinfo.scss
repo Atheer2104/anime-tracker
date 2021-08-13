@@ -26,10 +26,16 @@
         }
         
         p {
-            display: block;
             margin: 0.2rem;
             font-size: large;
             font-weight: bold;
+            text-overflow: ellipsis;
+            word-wrap: break-word;
+            overflow: scroll;
+            max-height: 5em;
+            line-height: 1.2em;
+            box-sizing: border-box;
+            max-width: 190px;
         }
         
         // TODO currently it's not very good optimised on mobile because of postition absolute but it's needed

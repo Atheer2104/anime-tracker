@@ -4,15 +4,23 @@ import { useHistory } from 'react-router-dom';
 
 interface IProps {
     anime: {
-        synopsis: string;
-        canonicalTitle: string;
-        startDate: string;
-        endDate: string | null;
-        nextRelease: string | null;
-        subtype: string;
-        status: string;
-        posterImage: {small: string},
-        coverImage: { large: string}
+        id: string,
+        attributes: {
+            synopsis: string;
+            canonicalTitle: string;
+            startDate: string;
+            endDate: string | null;
+            nextRelease: string | null;
+            subtype: string;
+            status: string;
+            posterImage: {
+                small: string;
+            };
+            coverImage: {
+                large: string;
+            } | null;
+            episodeCount: number | null
+        }
     },
     // we don't need to specify every action that we are having beacuase they all do the same thing
     // so to avoid code duplication we pass in an array that contains our arrays of anime [favourites, etc...]
@@ -27,16 +35,21 @@ interface IProps {
 
 const Animeinfo: React.FC<IProps> = ({ anime, action, setAction }) => {
     const history = useHistory()
+    const coverImageIfNotFound: string = "https://images.unsplash.com/photo-1557682250-33bd709cbe85?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&h=800&q=80"
     let animeObject = {
-        synopsis: anime.synopsis,
-        canonicalTitle: anime.canonicalTitle,
-        startDate: anime.startDate,
-        endDate: anime.endDate,
-        nextRelease: anime.nextRelease,
-        subtype: anime.subtype,
-        status: anime.status,
-        posterImage: anime.posterImage,
-        coverImage: anime.coverImage
+        id: anime.id,
+        attributes: {
+            synopsis: anime.attributes.synopsis,
+            canonicalTitle: anime.attributes.canonicalTitle,
+            startDate: anime.attributes.startDate,
+            endDate: anime.attributes.endDate,
+            nextRelease: anime.attributes.nextRelease,
+            subtype: anime.attributes.subtype,
+            status: anime.attributes.status,
+            posterImage: anime.attributes.posterImage,
+            coverImage: anime.attributes.coverImage,
+            episodeCount: anime.attributes.episodeCount
+        }
     }
 
     const handleClick = (e: React.MouseEvent<HTMLButtonElement>):void => {
@@ -69,17 +82,18 @@ const Animeinfo: React.FC<IProps> = ({ anime, action, setAction }) => {
                 ])
                 history.push('/Completed');
         }
+        
     }
 
     return (
         <div className='Animeinfo'>
             <div className='Animeinfo-banner'>
-                <img src={anime.coverImage.large} alt='Anime banner'></img>
+                <img src={anime.attributes.coverImage?.large == null ? coverImageIfNotFound : anime.attributes.coverImage?.large} alt='Anime banner'></img>
             </div>
 
             <div className='Animeinfo-poster'>
-                <img src={anime.posterImage.small} alt='Anime poster'></img>
-                <p>{anime.canonicalTitle}</p>
+                <img src={anime.attributes.posterImage.small} alt='Anime poster'></img>
+                <p>{anime.attributes.canonicalTitle}</p>
 
                 <div className='Animeinfo-actions'>
                     <button name='Favourites' id='favorites' onClick={handleClick}>Add to Favorites</button>
@@ -92,26 +106,26 @@ const Animeinfo: React.FC<IProps> = ({ anime, action, setAction }) => {
 
             <div className='Animeinfo-container'>
                 <label>Description:</label>
-                <p className='Animeinfo-container-description'>{anime.synopsis}
+                <p className='Animeinfo-container-description'>{anime.attributes.synopsis}
                 </p> 
 
                 <label>Start Date:</label>
-                <p>{anime.startDate}</p>
+                <p>{anime.attributes.startDate}</p>
 
                 <label>End Date:</label>
-                <p>{anime.endDate}</p>
+                <p>{anime.attributes.endDate == null ? 'No information' : anime.attributes.endDate}</p>
                 
                 <label>Next Episode:</label>
-                <p>{anime.nextRelease}</p>
+                <p>{anime.attributes.nextRelease == null ? 'No information' : anime.attributes.nextRelease}</p>
 
                 <label>Subtype:</label>
-                <p>{anime.subtype}</p>
+                <p>{anime.attributes.subtype}</p>
 
                 <label>Status:</label>
-                <p>{anime.status}</p>
+                <p>{anime.attributes.status}</p>
 
                 <label>Episode Count:</label>
-                <p>null</p>
+                <p>{anime.attributes.episodeCount == null ? 'No information' : anime.attributes.episodeCount}</p>
             </div>
         </div>
     )

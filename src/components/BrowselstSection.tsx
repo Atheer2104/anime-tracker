@@ -4,19 +4,23 @@ import { IAnime } from '../App';
 
 interface IProps {
     Animes: ({
-        synopsis: string;
-        canonicalTitle: string;
-        startDate: string;
-        endDate: string | null;
-        nextRelease: string | null;
-        subtype: string;
-        status: string;
-        posterImage: {
-            small: string;
-        };
-        coverImage: {
-            large: string;
-        };
+        id: string,
+        attributes: {
+            synopsis: string;
+            canonicalTitle: string;
+            startDate: string;
+            endDate: string | null;
+            nextRelease: string | null;
+            subtype: string;
+            status: string;
+            posterImage: {
+                small: string;
+            };
+            coverImage: {
+                large: string;
+            } | null;
+            episodeCount: number | null
+        }
     })[]
     setAnime: (anime: IAnime) => void;
     title: string

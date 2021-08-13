@@ -12,13 +12,27 @@ interface IProps {
 const SearchBar:React.FC<IProps> = ({ initialAnimeState, animes, setAnimes }) => {
     const [input, setInput] = useState<string>("")
 
+    const fetchAnimesBySearch = async(q: string):Promise<any> => {
+        const response = await fetch(`https://kitsu.io/api/edge/anime?filter%5Btext%5D=${q}&page%5Blimit%5d=20`);
+        const data = await response.json();
+
+        return data
+    }
+
+    const getAnimesBySearch = async(q:string) => {
+        const dataFromServer = await fetchAnimesBySearch(q);
+            
+        setAnimes(dataFromServer.data);   
+    }
+
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>):void => {
-        setInput(e.target.value)
+        setInput(e.target.value);
+        console.log(e.target.value);
         
         if (e.target.value === "") {   
-            setAnimes(initialAnimeState)
+            setAnimes(initialAnimeState);
         } else {
-            setAnimes(initialAnimeState.filter((anime) => anime.canonicalTitle.toLowerCase().includes(e.target.value)))   
+            getAnimesBySearch(e.target.value);
         }
     }
 
