@@ -20,7 +20,7 @@ const Header:React.FC<IProps> = ({ loggedIn }) => {
     const userSignedIn = (): JSX.Element => {
         return (
             <div>
-                <Link to="/Browselist" >Browse List</Link>
+                <Link id='browselist'to="/Browselist" >Browse List</Link>
                 <div></div>
             </div>
         )
