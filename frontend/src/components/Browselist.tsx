@@ -6,8 +6,8 @@ const Browselist: React.FC = () => {
         <div className='container'>
             <Link to='/Favourites'>
                 <div className='list'>
-                    <div id='favorites'></div>
-                    <p>Favorties</p>
+                    <div id='Favourties'></div>
+                    <p>Favourties</p>
             </div>
             </Link>
             
