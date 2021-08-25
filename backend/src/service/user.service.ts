@@ -1,10 +1,10 @@
-import User from "../model/user.model";
+import { FilterQuery } from "mongoose";
+import User, { UserDocument } from "../model/user.model";
 
-export async function createUser(first_name: string, last_name:string, email: string, password: string) {
+export async function createUser(name:string, email: string, password:string) {
     try {
         const user = await User.create({
-            first_name,
-            last_name,
+            name,
             email: email.toLowerCase(),
             password
         })
@@ -14,3 +14,26 @@ export async function createUser(first_name: string, last_name:string, email: st
         throw new Error(error);
     }
 }
+
+export async function findUser(query: FilterQuery<UserDocument>) {
+    return await User.findOne(query);
+
+}
+
+export async function validatePassword({
+    email, 
+    password
+    } : {
+    email: UserDocument["email"];
+    password: string;    
+    }) {
+        const user = await User.findOne({ email });
+
+        if (!user) return false;
+
+        const valid = user.comparePassword(password);
+
+        if (!valid) return false;
+
+        return user.toJSON();
+    }
