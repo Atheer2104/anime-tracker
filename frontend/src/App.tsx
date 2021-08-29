@@ -145,15 +145,8 @@ function App() {
       episodeCount: 500
     }
   })
-  const [users, setUsers] = useState<Users["users"]>([
-    {
-      email: "test@gmail.com",
-      username: "test",
-      password: "1234"
-    }
-  ])
 
-  const [loggdeIn, setLoggedin] = useState<Boolean>(true);
+  const [loggdeIn, setLoggedin] = useState<Boolean>(false);
   
   const [favourites, setFavourites] = useState<IAnime[]>([])
 
@@ -162,7 +155,11 @@ function App() {
   const [watching, setwatching] = useState<IAnime[]>([])
 
   const [completed, setcompleted] = useState<IAnime[]>([])
-  
+
+  const [accessToken, setAccessToken] = useState<string>("");
+
+  const [refreshToken, setrefreshToken] = useState<string>("");
+   
   useEffect(() => {
     const getTrendingAnimes = async() => {
       const dataFromServer = await fetchTrendingAnimes()
@@ -187,39 +184,39 @@ function App() {
       <div className="App">
         <Switch>
         <Route path='/Favourites'>
-            <Header loggedIn={loggdeIn}/>
+            <Header loggedIn={loggdeIn} accessToken={accessToken} refreshToken={refreshToken}/>
             <BrowselstSection Animes={favourites} setAnime={setAnime} title={'Favourites'}/>
           </Route>
         <Route path='/Planingtowatch'>
-            <Header loggedIn={loggdeIn}/>
+            <Header loggedIn={loggdeIn} accessToken={accessToken} refreshToken={refreshToken}/>
             <BrowselstSection Animes={planingtowatch} setAnime={setAnime} title={'Planing to Watch'}/>
           </Route>
         <Route path='/Watching'>
-            <Header loggedIn={loggdeIn}/>
+            <Header loggedIn={loggdeIn} accessToken={accessToken} refreshToken={refreshToken}/>
             <BrowselstSection Animes={watching} setAnime={setAnime} title={'Watching'}/>
           </Route>
         <Route path='/Completed'>
-            <Header loggedIn={loggdeIn}/>
+            <Header loggedIn={loggdeIn} accessToken={accessToken} refreshToken={refreshToken}/>
             <BrowselstSection Animes={completed} setAnime={setAnime} title={'Completed'}/>
           </Route>
         <Route path='/Browselist'>
-            <Header loggedIn={loggdeIn}/>
+            <Header loggedIn={loggdeIn} accessToken={accessToken} refreshToken={refreshToken}/>
             <Browselist />
           </Route>
           <Route path='/Signup'>
-            <Header loggedIn={loggdeIn}/>
-            <Signup users={users} setUsers={setUsers} setLoggedin={setLoggedin} />
+            <Header loggedIn={loggdeIn} accessToken={accessToken} refreshToken={refreshToken}/>
+            <Signup setLoggedin={setLoggedin} />
           </Route>
           <Route path='/Login'>
-            <Header loggedIn={loggdeIn}/>
-            <Login users={users} setLoggedin={setLoggedin}/>
+            <Header loggedIn={loggdeIn} accessToken={accessToken} refreshToken={refreshToken}/>
+            <Login setLoggedin={setLoggedin} setAccessToken={setAccessToken} setRefreshToken={setrefreshToken}/>
           </Route>
           <Route path='/Animeinfo'>
-            <Header loggedIn={loggdeIn}/>
+            <Header loggedIn={loggdeIn} accessToken={accessToken} refreshToken={refreshToken}/>
             <Animeinfo anime={anime} action={[favourites, planingtowatch, watching, completed]} setAction={[setFavourites, setplaningtowatch, setwatching, setcompleted]}/>
             </Route>
           <Route path='/'>
-            <Header loggedIn={loggdeIn}/>
+            <Header loggedIn={loggdeIn} accessToken={accessToken} refreshToken={refreshToken}/>
             <SearchBar initialAnimeState={initialAnimeState.current} animes={animes} setAnimes={setAnimes}/>
             <Animecards Animes={animes} setAnime={setAnime} isLinkActive={true}/>
           </Route>

@@ -17,7 +17,6 @@ export async function createUser(name:string, email: string, password:string) {
 
 export async function findUser(query: FilterQuery<UserDocument>) {
     return await User.findOne(query);
-
 }
 
 export async function validatePassword({

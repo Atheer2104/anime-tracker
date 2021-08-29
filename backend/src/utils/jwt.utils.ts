@@ -6,5 +6,11 @@ export function sign(object: Object, options?: jwt.SignOptions | undefined) {
 }
 
 export function decode(token: string) {
-  return jwt.verify(token, config.privateKey);
+  try {
+    const decoded = jwt.verify(token, config.privateKey);
+    
+    return {valid: true, expired: false, decoded};
+  }catch(error) {
+    return {valid: false, expired: error.message === "jwt expired", decoded: null};
+  }
 }

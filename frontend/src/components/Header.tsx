@@ -1,13 +1,16 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-
+import axios from 'axios';
+import { useHistory } from 'react-router-dom';
 
 interface IProps {
-    loggedIn: Boolean
+    loggedIn: Boolean,
+    accessToken: string, 
+    refreshToken: string, 
 }
 
-// TODO: when placing logo here make sure when it is clicked it returns to homepage
-const Header:React.FC<IProps> = ({ loggedIn }) => {
+const Header:React.FC<IProps> = ({ loggedIn, accessToken, refreshToken }) => {
+    const history = useHistory();
     const userNotSignedIn = ():JSX.Element => {
         return (
             <div>
@@ -17,11 +20,30 @@ const Header:React.FC<IProps> = ({ loggedIn }) => {
         )
     }
 
+    const signUserOut = async(): Promise<void> => {
+        axios.delete('http://localhost:3001/api/sessions', {
+            headers: {
+                'x-refresh': `${refreshToken}`,
+                'authorization': `${accessToken}`
+            }
+        })
+        .then(res => {
+            console.log(res.data);
+            console.log(res.status);
+            history.push('/');
+        })
+        .catch(error => {
+            console.log(error);
+            alert(error);
+        })
+    }
+
     const userSignedIn = (): JSX.Element => {
         return (
             <div>
                 <Link id='browselist'to="/Browselist" >Browse List</Link>
-                <div></div>
+                <Link id='logoutLink'to="/" onClick={signUserOut}>Log out</Link>
+
             </div>
         )
     }

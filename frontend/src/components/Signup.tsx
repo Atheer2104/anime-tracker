@@ -1,15 +1,13 @@
 import React from 'react'
 import { useState } from 'react'
-import { Users } from "../App";
 import { useHistory } from 'react-router-dom';
+import axios from 'axios';
 
 interface IProps {
-    users: Users['users'],
-    setUsers: (user: Users['users']) => void,
     setLoggedin: (loggedin: Boolean) => void
 }
 
-const Signup: React.FC<IProps> = ({ users, setUsers, setLoggedin }) => {
+const Signup: React.FC<IProps> = ({ setLoggedin }) => {
     const history = useHistory();
     const [input, setInput] = useState({
         email: "",
@@ -24,14 +22,15 @@ const Signup: React.FC<IProps> = ({ users, setUsers, setLoggedin }) => {
         })
     }
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>):void => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>):Promise<void> => {
         e.preventDefault();
 
         if (!input.email || !input.username || !input.password) {
             alert("make sure everything is filled out");
             return
         }
-
+        
+        /*
         setUsers([
             ...users,
             {
@@ -40,15 +39,31 @@ const Signup: React.FC<IProps> = ({ users, setUsers, setLoggedin }) => {
                 password: input.password
             }
         ])
+        */
 
-        setInput({
-            email: '',
-            username: '',
-            password: ''
-        })
-        setLoggedin(true);
-        history.push('/');
-        // TODO: redierect user to homepage after they have signed
+        await axios.post('http://localhost:3001/api/users', 
+            {
+                name: input.username,
+                email: input.email,
+                password: input.password
+            })
+            .then(res => {
+                //console.log(res.data);
+                //console.log(res.status);
+                // TODO: redierect user to homepage after they have signed
+                //setLoggedin(true);
+                setInput({
+                    email: '',
+                    username: '',
+                    password: ''
+                })
+                history.push('/login');
+            })
+            .catch(error => {
+                console.log(error);
+                alert(error);
+            })
+        
     }
 
 
