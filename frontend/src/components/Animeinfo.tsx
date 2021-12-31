@@ -1,8 +1,10 @@
 import React from 'react'  
-import { IAnime } from '../App';
 import { useHistory } from 'react-router-dom';
+import axios from 'axios';
 
 interface IProps {
+    accessToken: string, 
+    refreshToken: string
     anime: {
         id: string,
         attributes: {
@@ -22,18 +24,10 @@ interface IProps {
             episodeCount: number | null
         }
     },
-    // we don't need to specify every action that we are having beacuase they all do the same thing
-    // so to avoid code duplication we pass in an array that contains our arrays of anime [favourites, etc...]
-    action: IAnime[][],
-    // this is the same for our function we pass in array of actions and we just need to chose correct one 
-    // Index 0: Favourites
-    // Index 1: Planingtowatch
-    // Index 2: Watching
-    // Index 3: Completed
-    setAction: { (favourites: IAnime[]): void } [];
+
 }
 
-const Animeinfo: React.FC<IProps> = ({ anime, action, setAction }) => {
+const Animeinfo: React.FC<IProps> = ({ anime, accessToken, refreshToken}) => {
     const history = useHistory()
     const coverImageIfNotFound: string = "https://images.unsplash.com/photo-1557682250-33bd709cbe85?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&h=800&q=80"
     let animeObject = {
@@ -52,35 +46,57 @@ const Animeinfo: React.FC<IProps> = ({ anime, action, setAction }) => {
         }
     }
 
+    const headers = {
+        'x-refresh': `${refreshToken}`,
+        'authorization': `${accessToken}`
+    }
+
     const handleClick = (e: React.MouseEvent<HTMLButtonElement>):void => {
         let buttonName = e.currentTarget.name;
         
-        if (buttonName === 'Favourites') {
-            setAction[0]([
-            ...action[0],
-                animeObject
-            ])
-            history.push('/Favourites');
+
+        if (buttonName === 'Favourites') { 
+            const data = {
+                favouriteAnimesIDs: [animeObject.id]
+            }
+
+            axios.patch('http://localhost:3001/api/animes/favourites', data, {
+                headers: headers
+            })
+
+            history.push('/');
         } else if (buttonName === 'Planingtowatch') {
-            setAction[1]([
-                ...action[1],
-                    animeObject
-                ])
-                history.push('/Planingtowatch');
+            const data = {
+                planingToWatchAnimeIDs: [animeObject.id]
+            }
+
+            axios.patch('http://localhost:3001/api/animes/planingtowatch', data, {
+                headers: headers
+            })
+
+            history.push('/Planingtowatch');
         }
         else if (buttonName === 'Watching') {
-            setAction[2]([
-                ...action[2],
-                    animeObject
-                ])
-                history.push('/Watching');
+            const data = {
+                watchingAnimeIDs: [animeObject.id]
+            }
+
+            axios.patch('http://localhost:3001/api/animes/watching', data, {
+                headers: headers
+            })
+
+            history.push('/Watching');
         }
         else if (buttonName === 'Completed') {
-            setAction[3]([
-                ...action[3],
-                    animeObject
-                ])
-                history.push('/Completed');
+            const data = {
+                completedAnimeIDs: [animeObject.id]
+            }
+            
+            axios.patch('http://localhost:3001/api/animes/completed', data, {
+                headers: headers
+            })
+
+            history.push('/Completed');
         }
         
     }

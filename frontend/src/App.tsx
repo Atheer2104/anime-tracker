@@ -33,7 +33,6 @@ export interface Users {
     password: string
   }[]
 }
-
 function App() {  
   const initialAnimeState = useRef<IAnime[]>([ 
     {
@@ -127,6 +126,7 @@ function App() {
       }
     }
 ])
+
   // generel collection of animes that acts as db 
   const [animes, setAnimes] = useState<IAnime[]>([])
   // this collection is used to know what anime to show when user press animecard
@@ -148,7 +148,7 @@ function App() {
 
   const [loggdeIn, setLoggedin] = useState<Boolean>(false);
   
-  const [favourites, setFavourites] = useState<IAnime[]>([])
+  const [favourites, setFavourites] = useState<Array<IAnime>>([])
 
   const [planingtowatch, setplaningtowatch] = useState<IAnime[]>([])
 
@@ -185,23 +185,23 @@ function App() {
         <Switch>
         <Route path='/Favourites'>
             <Header loggedIn={loggdeIn} accessToken={accessToken} refreshToken={refreshToken}/>
-            <BrowselstSection Animes={favourites} setAnime={setAnime} title={'Favourites'}/>
+            <BrowselstSection Animes={favourites} setAnime={setAnime} title={'Favourites'} loggedIn={loggdeIn} accessToken={accessToken} refreshToken={refreshToken} SetAction={setFavourites} urlExtension='favourites'/>
           </Route>
         <Route path='/Planingtowatch'>
             <Header loggedIn={loggdeIn} accessToken={accessToken} refreshToken={refreshToken}/>
-            <BrowselstSection Animes={planingtowatch} setAnime={setAnime} title={'Planing to Watch'}/>
+            <BrowselstSection Animes={planingtowatch} setAnime={setAnime} title={'Planing to Watch'} loggedIn={loggdeIn} accessToken={accessToken} refreshToken={refreshToken} SetAction={setplaningtowatch} urlExtension='planingtowatch'/>
           </Route>
         <Route path='/Watching'>
             <Header loggedIn={loggdeIn} accessToken={accessToken} refreshToken={refreshToken}/>
-            <BrowselstSection Animes={watching} setAnime={setAnime} title={'Watching'}/>
+            <BrowselstSection Animes={watching} setAnime={setAnime} title={'Watching'} loggedIn={loggdeIn} accessToken={accessToken} refreshToken={refreshToken} SetAction={setwatching} urlExtension='watching'/>
           </Route>
         <Route path='/Completed'>
             <Header loggedIn={loggdeIn} accessToken={accessToken} refreshToken={refreshToken}/>
-            <BrowselstSection Animes={completed} setAnime={setAnime} title={'Completed'}/>
+            <BrowselstSection Animes={completed} setAnime={setAnime} title={'Completed'} loggedIn={loggdeIn} accessToken={accessToken} refreshToken={refreshToken} SetAction={setcompleted} urlExtension='completed'/>
           </Route>
         <Route path='/Browselist'>
             <Header loggedIn={loggdeIn} accessToken={accessToken} refreshToken={refreshToken}/>
-            <Browselist />
+            <Browselist/>
           </Route>
           <Route path='/Signup'>
             <Header loggedIn={loggdeIn} accessToken={accessToken} refreshToken={refreshToken}/>
@@ -213,7 +213,7 @@ function App() {
           </Route>
           <Route path='/Animeinfo'>
             <Header loggedIn={loggdeIn} accessToken={accessToken} refreshToken={refreshToken}/>
-            <Animeinfo anime={anime} action={[favourites, planingtowatch, watching, completed]} setAction={[setFavourites, setplaningtowatch, setwatching, setcompleted]}/>
+            <Animeinfo accessToken={accessToken} refreshToken={refreshToken} anime={anime} />
             </Route>
           <Route path='/'>
             <Header loggedIn={loggdeIn} accessToken={accessToken} refreshToken={refreshToken}/>

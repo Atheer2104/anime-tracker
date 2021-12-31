@@ -8,5 +8,5 @@ export const requiresUser = async (req: Request, res: Response, next: NextFuncti
         return res.sendStatus(403);
     }
 
-    return next();;
+    return next();
 }

@@ -1,9 +1,9 @@
-import { Request, Response } from "express";
+import { Request, Response, NextFunction} from "express";
 import log from "../logger/logger";
 import User from "../model/user.model"
 import { createUser, findUser } from '../service/user.service'
 
-export async function registerUserHandler(req: Request, res: Response) {
+export const registerUserHandler = async (req: Request, res: Response, next: NextFunction) => {
     try {
         // get user input from http body 
         const {name, email, password } = req.body;
@@ -22,8 +22,10 @@ export async function registerUserHandler(req: Request, res: Response) {
         // creating user 
         const user = await createUser(name, email, password);
 
-        // return user was created
-        res.status(201).json(user);
+        // set user info to body 
+        req.body = user;
+
+        return next();
 
     } catch(error) {
         log.error(error)

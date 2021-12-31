@@ -2,6 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 
 const Browselist: React.FC = () => {
+
     return (
         <div className='container'>
             <Link to='/Favourites'>
@@ -37,3 +38,4 @@ const Browselist: React.FC = () => {
 }
 
 export default Browselist
+ 

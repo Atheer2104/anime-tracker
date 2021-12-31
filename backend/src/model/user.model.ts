@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs';
 
 export interface UserDocument extends mongoose.Document {
-    name: string ;
+    name: string;
     email: string; 
     password: string; 
     comparePassword(candidatePassword: string): Promise<Boolean>;

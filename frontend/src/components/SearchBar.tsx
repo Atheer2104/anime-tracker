@@ -27,7 +27,7 @@ const SearchBar:React.FC<IProps> = ({ initialAnimeState, animes, setAnimes }) =>
 
     const getAnimesBySearch = async(q:string) => {
         const dataFromServer = await fetchAnimesBySearch(q);
-            
+        console.log(dataFromServer.data);
         setAnimes(dataFromServer.data);   
     }
 
