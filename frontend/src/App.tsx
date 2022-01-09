@@ -10,6 +10,7 @@ import Animeinfo from "./components/Animeinfo";
 import Browselist from './components/Browselist';
 import BrowselstSection from './components/BrowselstSection';
 import TrendingAnimes from './components/TrendingAnimes';
+import Cookietest from './components/cookietest';
 
 export interface IAnime {
   id: string,
@@ -108,6 +109,11 @@ const App: React.FC = () => {
             <Header loggedIn={loggdeIn} accessToken={accessToken} refreshToken={refreshToken}/>
             <Animeinfo accessToken={accessToken} refreshToken={refreshToken} anime={anime} />
             </Route>
+            <Route path='/Cookie'>
+            <Header loggedIn={loggdeIn} accessToken={accessToken} refreshToken={refreshToken}/>
+            <SearchBar setEmptySearch={setEmptySearch} setAnimes={setAnimes}/>
+            <Cookietest />
+          </Route>
           <Route path='/'>
             <Header loggedIn={loggdeIn} accessToken={accessToken} refreshToken={refreshToken}/>
             <SearchBar setEmptySearch={setEmptySearch} setAnimes={setAnimes}/>

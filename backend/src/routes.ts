@@ -4,6 +4,7 @@ import { registerUserHandler} from './controller/user.controller';
 import { verifyToken } from './middleware/auth';
 import { requiresUser } from './middleware/requiresUser';
 import { createEmptyAnimeListHandler, updateAnimeHandler, getAnimeHandler} from './controller/anime.controller';
+import { setCookie, getCookie } from './controller/cookie.controller';
 
 export default function(app: Express) {
 
@@ -43,6 +44,11 @@ export default function(app: Express) {
 
     app.patch("/api/animes/completed", requiresUser, updateAnimeHandler);
 
+
+
+    app.get("/api/setcookie", setCookie);
+
+    app.get("/api/getcookie", getCookie)
    
 
     // delete anime - later 

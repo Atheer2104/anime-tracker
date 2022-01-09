@@ -4,7 +4,7 @@ import { createAccessToken, createSession, deleteSession, findSessions} from '..
 import { sign } from '../utils/jwt.utils';
 import config from '../../config/config';
 import { get } from 'lodash';
-import log from '../logger/logger';
+
 
 export async function createUserSessionHandler(req: Request, res: Response) {
     // validate user 
