@@ -1,4 +1,4 @@
-import {Request, Response} from 'express';
+import {Request, Response, NextFunction} from 'express';
 import { validatePassword } from '../service/user.service';
 import { createAccessToken, createSession, deleteSession, findSessions} from '../service/session.service';
 import { sign } from '../utils/jwt.utils';
@@ -6,7 +6,8 @@ import config from '../../config/config';
 import { get } from 'lodash';
 
 
-export async function createUserSessionHandler(req: Request, res: Response) {
+export async function createUserSessionHandler(req: Request, res: Response, next: NextFunction) {
+
     // validate user 
     const user = await validatePassword(req.body);
 
@@ -23,8 +24,11 @@ export async function createUserSessionHandler(req: Request, res: Response) {
     // create refreshToken
     const refreshToken = sign(session, {expiresIn: config.refresh_token_expires_in});
 
-    // sending back access & refresh Token
-    res.send({ accessToken, refreshToken })
+    // setting accessToken
+    req.session.accessToken = accessToken;
+    req.session.refreshToken = refreshToken;
+
+    res.status(201).send("Session has been created");
 }
 
 

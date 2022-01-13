@@ -10,11 +10,9 @@ interface LoginUser {
 
 interface IProps {
     setLoggedin: (loggedin: Boolean) => void
-    setAccessToken: (accessToken: string) => void
-    setRefreshToken: (refreshToken: string) => void
 }
 
-const Login: React.FC<IProps> = ({ setLoggedin, setAccessToken, setRefreshToken }) => {
+const Login: React.FC<IProps> = ({ setLoggedin}) => {
     const history = useHistory();
     const [input, setInput] = useState<LoginUser>({
         email: '',
@@ -37,17 +35,13 @@ const Login: React.FC<IProps> = ({ setLoggedin, setAccessToken, setRefreshToken 
             return
         }
 
-        await axios.post('http://localhost:3001/api/sessions', 
+        await axios.post('http://localhost:3001/api/sessions',
             {
                 email: input.email,
                 password: input.password
-            })
+            },{withCredentials: true})
             .then(res => {
                 //console.log(res.data);
-                let {accessToken, refreshToken} = res.data;
-                setAccessToken(accessToken);
-                setRefreshToken(refreshToken);
-                //console.log(res.status);
                 // TODO: redierect user to homepage after they have signed
                 setLoggedin(true);
                 history.push('/');

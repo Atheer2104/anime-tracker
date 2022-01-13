@@ -1,20 +1,20 @@
-import React from 'react';
+import React, {Dispatch, SetStateAction} from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
 
 interface IProps {
     loggedIn: Boolean,
-    accessToken: string, 
-    refreshToken: string, 
+    setLoggedIn: Dispatch<SetStateAction<Boolean>>
 }
 
-const Header:React.FC<IProps> = ({ loggedIn, accessToken, refreshToken }) => {
+const Header:React.FC<IProps> = ({ loggedIn, setLoggedIn }) => {
     const history = useHistory();
+
     const userNotSignedIn = ():JSX.Element => {
         return (
             <div>
-                <Link to="/Login" >Login</Link>
+                <a onClick={checkUserAlreadySignedIn} >Login</a>
                 <Link to="/Signup" id='signupLink'>Signup</Link>
             </div>
         )
@@ -22,19 +22,38 @@ const Header:React.FC<IProps> = ({ loggedIn, accessToken, refreshToken }) => {
 
     const signUserOut = async(): Promise<void> => {
         axios.delete('http://localhost:3001/api/sessions', {
-            headers: {
-                'x-refresh': `${refreshToken}`,
-                'authorization': `${accessToken}`
-            }
+            withCredentials: true
         })
         .then(res => {
-            console.log(res.data);
-            console.log(res.status);
+            //console.log(res.data);
+            //console.log(res.status);
+            setLoggedIn(false);
             history.push('/');
+            
         })
         .catch(error => {
             console.log(error);
             alert(error);
+        })
+    }
+
+    const checkUserAlreadySignedIn = async() => {
+        axios.get('http://localhost:3001/api/sessionexists', {
+            withCredentials: true
+        })
+        .then(res => {
+            if (res.status === 200) {
+                setLoggedIn(true);
+                history.push('/');
+                //console.info("sessionalready exists")
+                
+            }
+
+            
+        })
+        .catch(err => {
+            console.error(err);
+            history.push('/Login');
         })
     }
 

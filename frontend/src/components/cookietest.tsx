@@ -8,11 +8,10 @@ const Cookietest: React.FC = () => {
     },[])
 
     const cookie = async():Promise<any> => {
-        const setcookie = await setCookie();
-        console.info(setcookie);
+        //const setcookie = await setCookie();
+        //console.info(setcookie);
 
         const getcookie = await getCookie();
-        console.info(getcookie);
     }
 
     const setCookie = async() => { 
@@ -20,7 +19,13 @@ const Cookietest: React.FC = () => {
     }
 
     const getCookie = async() => {
-        return await axios.get('http://localhost:3001/api/getcookie', {withCredentials: true})
+        await axios.get('http://localhost:3001/api/getcookie', {withCredentials: true})
+        .then(res => {
+            console.log(res);
+        })
+        .catch(err => {
+            console.log(err);
+        })
     }
 
     return (

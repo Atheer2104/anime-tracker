@@ -3,7 +3,7 @@ import { Request, Response, NextFunction } from "express";
 import log from "../logger/logger";
 
 export const verifyToken = (req: Request, res: Response, next: NextFunction) => {
-    const token = req.body.token || req.query.token || req.headers["x-access-token"];
+    const token = req.body.token || req.query.token || req.headers["x-access-token"] || req.session.accessToken;
 
     if (!token) {
         return res.status(403).send("A token is required for authentication");

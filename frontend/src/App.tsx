@@ -67,10 +67,6 @@ const App: React.FC = () => {
 
   const [completed, setcompleted] = useState<IAnime[]>([])
 
-  const [accessToken, setAccessToken] = useState<string>("");
-
-  const [refreshToken, setrefreshToken] = useState<string>("");
-
   const [emptySearch, setEmptySearch] = useState<Boolean>(false);
 
   return (
@@ -78,44 +74,44 @@ const App: React.FC = () => {
       <div className="App">
         <Switch>
         <Route path='/Favourites'>
-            <Header loggedIn={loggdeIn} accessToken={accessToken} refreshToken={refreshToken}/>
-            <BrowselstSection Animes={favourites} setAnime={setAnime} title={'Favourites'} loggedIn={loggdeIn} accessToken={accessToken} refreshToken={refreshToken} SetAction={setFavourites} urlExtension='favourites'/>
+            <Header loggedIn={loggdeIn} setLoggedIn={setLoggedin}/>
+            <BrowselstSection Animes={favourites} setAnime={setAnime} title={'Favourites'} loggedIn={loggdeIn} SetAction={setFavourites} urlExtension='favourites'/>
           </Route>
         <Route path='/Planingtowatch'>
-            <Header loggedIn={loggdeIn} accessToken={accessToken} refreshToken={refreshToken}/>
-            <BrowselstSection Animes={planingtowatch} setAnime={setAnime} title={'Planing to Watch'} loggedIn={loggdeIn} accessToken={accessToken} refreshToken={refreshToken} SetAction={setplaningtowatch} urlExtension='planingtowatch'/>
+            <Header loggedIn={loggdeIn} setLoggedIn={setLoggedin}/>
+            <BrowselstSection Animes={planingtowatch} setAnime={setAnime} title={'Planing to Watch'} loggedIn={loggdeIn} SetAction={setplaningtowatch} urlExtension='planingtowatch'/>
           </Route>
         <Route path='/Watching'>
-            <Header loggedIn={loggdeIn} accessToken={accessToken} refreshToken={refreshToken}/>
-            <BrowselstSection Animes={watching} setAnime={setAnime} title={'Watching'} loggedIn={loggdeIn} accessToken={accessToken} refreshToken={refreshToken} SetAction={setwatching} urlExtension='watching'/>
+            <Header loggedIn={loggdeIn} setLoggedIn={setLoggedin}/>
+            <BrowselstSection Animes={watching} setAnime={setAnime} title={'Watching'} loggedIn={loggdeIn} SetAction={setwatching} urlExtension='watching'/>
           </Route>
         <Route path='/Completed'>
-            <Header loggedIn={loggdeIn} accessToken={accessToken} refreshToken={refreshToken}/>
-            <BrowselstSection Animes={completed} setAnime={setAnime} title={'Completed'} loggedIn={loggdeIn} accessToken={accessToken} refreshToken={refreshToken} SetAction={setcompleted} urlExtension='completed'/>
+            <Header loggedIn={loggdeIn} setLoggedIn={setLoggedin}/>
+            <BrowselstSection Animes={completed} setAnime={setAnime} title={'Completed'} loggedIn={loggdeIn} SetAction={setcompleted} urlExtension='completed'/>
           </Route>
         <Route path='/Browselist'>
-            <Header loggedIn={loggdeIn} accessToken={accessToken} refreshToken={refreshToken}/>
+            <Header loggedIn={loggdeIn} setLoggedIn={setLoggedin}/>
             <Browselist/>
           </Route>
           <Route path='/Signup'>
-            <Header loggedIn={loggdeIn} accessToken={accessToken} refreshToken={refreshToken}/>
+            <Header loggedIn={loggdeIn} setLoggedIn={setLoggedin}/>
             <Signup setLoggedin={setLoggedin} />
           </Route>
           <Route path='/Login'>
-            <Header loggedIn={loggdeIn} accessToken={accessToken} refreshToken={refreshToken}/>
-            <Login setLoggedin={setLoggedin} setAccessToken={setAccessToken} setRefreshToken={setrefreshToken}/>
+            <Header loggedIn={loggdeIn} setLoggedIn={setLoggedin}/>
+            <Login setLoggedin={setLoggedin} />
           </Route>
           <Route path='/Animeinfo'>
-            <Header loggedIn={loggdeIn} accessToken={accessToken} refreshToken={refreshToken}/>
-            <Animeinfo accessToken={accessToken} refreshToken={refreshToken} anime={anime} />
+            <Header loggedIn={loggdeIn} setLoggedIn={setLoggedin}/>
+            <Animeinfo anime={anime} />
             </Route>
             <Route path='/Cookie'>
-            <Header loggedIn={loggdeIn} accessToken={accessToken} refreshToken={refreshToken}/>
+            <Header loggedIn={loggdeIn} setLoggedIn={setLoggedin}/>
             <SearchBar setEmptySearch={setEmptySearch} setAnimes={setAnimes}/>
             <Cookietest />
           </Route>
           <Route path='/'>
-            <Header loggedIn={loggdeIn} accessToken={accessToken} refreshToken={refreshToken}/>
+            <Header loggedIn={loggdeIn} setLoggedIn={setLoggedin}/>
             <SearchBar setEmptySearch={setEmptySearch} setAnimes={setAnimes}/>
             {emptySearch ? <TrendingAnimes animes={animes} setAnimes={setAnimes} setAnime={setAnime}/> : <Animecards Animes={animes} setAnime={setAnime} isLinkActive={true}/>}
           </Route>

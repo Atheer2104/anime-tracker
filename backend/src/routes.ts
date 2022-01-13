@@ -1,10 +1,11 @@
 import {Express, Request, Response} from 'express';
 import { createUserSessionHandler, invalidateUserSessionHandler, getUserSessionsHandler} from './controller/session.controller';
 import { registerUserHandler} from './controller/user.controller';
-import { verifyToken } from './middleware/auth';
 import { requiresUser } from './middleware/requiresUser';
 import { createEmptyAnimeListHandler, updateAnimeHandler, getAnimeHandler} from './controller/anime.controller';
 import { setCookie, getCookie } from './controller/cookie.controller';
+import { sessionAlreadyExists } from './middleware/sessionHandler';
+
 
 export default function(app: Express) {
 
@@ -17,13 +18,12 @@ export default function(app: Express) {
     app.post("/api/sessions", createUserSessionHandler);
 
     // logout the user 
-    app.delete("/api/sessions" ,requiresUser, invalidateUserSessionHandler);
+    app.delete("/api/sessions" , requiresUser, invalidateUserSessionHandler);
 
     // get all user sessions 
     app.get("/api/sessions", requiresUser, getUserSessionsHandler);
 
-    // create anime for first time 
-    //app.post("/api/animes", requiresUser ,createAnimeHandler);
+    app.get("/api/sessionexists", sessionAlreadyExists);
 
     // fetch Anime category
     app.get("/api/animes/favourites", requiresUser, getAnimeHandler)
@@ -45,10 +45,9 @@ export default function(app: Express) {
     app.patch("/api/animes/completed", requiresUser, updateAnimeHandler);
 
 
-
     app.get("/api/setcookie", setCookie);
 
-    app.get("/api/getcookie", getCookie)
+    app.get("/api/getcookie", getCookie);
    
 
     // delete anime - later 

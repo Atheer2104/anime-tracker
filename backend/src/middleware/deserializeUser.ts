@@ -5,9 +5,10 @@ import { reIssueAccessToken } from "../service/session.service";
 import log from '../logger/logger';
 
 export const deserializeUser = async (req: Request, res: Response, next: NextFunction) => {
-    const accessToken = get(req, "headers.authorization", "").replace(/^Bearer\s/, "");
+
+    const accessToken = req.session.accessToken;
    
-    const refreshToken = get(req, "headers.x-refresh");
+    const refreshToken = req.session.refreshToken;
     
     //log.info(`refrshToken: ${refreshToken}`);
     if (!accessToken) return next();
@@ -30,7 +31,10 @@ export const deserializeUser = async (req: Request, res: Response, next: NextFun
 
         if (newAccessToken) {
             // add the new access token to response header
-            res.setHeader("x-access-token", newAccessToken);
+            //res.setHeader("x-access-token", newAccessToken);
+            
+            //reset accessToken
+            req.session.accessToken = accessToken;
 
             const { decoded } = decode(newAccessToken);
 

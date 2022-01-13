@@ -26,13 +26,11 @@ interface IProps {
     setAnime: (anime: IAnime) => void;
     title: string;
     loggedIn: Boolean;
-    accessToken: string; 
-    refreshToken: string;
     SetAction: Dispatch<SetStateAction<Array<IAnime>>>;
     urlExtension: string;
 }
 
-const BrowselstSection: React.FC<IProps> = ({ Animes, setAnime, title, loggedIn, accessToken, refreshToken, SetAction, urlExtension}) => {
+const BrowselstSection: React.FC<IProps> = ({ Animes, setAnime, title, loggedIn, SetAction, urlExtension}) => {
     useEffect(() => {
         if (loggedIn) {
             resetAnimesList()
@@ -67,10 +65,7 @@ const BrowselstSection: React.FC<IProps> = ({ Animes, setAnime, title, loggedIn,
 
     const getData = async(urlExtension: string) => {
         return await axios.get(`http://localhost:3001/api/animes/${urlExtension}`, {
-            headers: {
-                'x-refresh': `${refreshToken}`,
-                'authorization': `${accessToken}`
-            }
+            withCredentials: true
         })
     }
 

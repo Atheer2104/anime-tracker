@@ -3,8 +3,6 @@ import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 
 interface IProps {
-    accessToken: string, 
-    refreshToken: string
     anime: {
         id: string,
         attributes: {
@@ -27,7 +25,7 @@ interface IProps {
 
 }
 
-const Animeinfo: React.FC<IProps> = ({ anime, accessToken, refreshToken}) => {
+const Animeinfo: React.FC<IProps> = ({ anime}) => {
     const history = useHistory()
     const coverImageIfNotFound: string = "https://images.unsplash.com/photo-1557682250-33bd709cbe85?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&h=800&q=80"
     let animeObject = {
@@ -46,11 +44,6 @@ const Animeinfo: React.FC<IProps> = ({ anime, accessToken, refreshToken}) => {
         }
     }
 
-    const headers = {
-        'x-refresh': `${refreshToken}`,
-        'authorization': `${accessToken}`
-    }
-
     const handleClick = (e: React.MouseEvent<HTMLButtonElement>):void => {
         let buttonName = e.currentTarget.name;
         
@@ -61,7 +54,7 @@ const Animeinfo: React.FC<IProps> = ({ anime, accessToken, refreshToken}) => {
             }
 
             axios.patch('http://localhost:3001/api/animes/favourites', data, {
-                headers: headers
+                withCredentials: true
             })
 
             history.push('/');
@@ -71,7 +64,7 @@ const Animeinfo: React.FC<IProps> = ({ anime, accessToken, refreshToken}) => {
             }
 
             axios.patch('http://localhost:3001/api/animes/planingtowatch', data, {
-                headers: headers
+                withCredentials: true
             })
 
             history.push('/Planingtowatch');
@@ -82,7 +75,7 @@ const Animeinfo: React.FC<IProps> = ({ anime, accessToken, refreshToken}) => {
             }
 
             axios.patch('http://localhost:3001/api/animes/watching', data, {
-                headers: headers
+                withCredentials: true
             })
 
             history.push('/Watching');
@@ -93,7 +86,7 @@ const Animeinfo: React.FC<IProps> = ({ anime, accessToken, refreshToken}) => {
             }
             
             axios.patch('http://localhost:3001/api/animes/completed', data, {
-                headers: headers
+                withCredentials: true
             })
 
             history.push('/Completed');

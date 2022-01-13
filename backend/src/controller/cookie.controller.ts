@@ -8,5 +8,5 @@ export const setCookie = async (req: Request, res: Response) => {
 
 export const getCookie = async (req: Request, res: Response) => {
 
-    res.send(req.session.jwt);
+    res.send(req.session.accessToken);
 }
