@@ -1,7 +1,8 @@
-import React, {useEffect, Dispatch, SetStateAction} from 'react'
+import React, {useState, useEffect, Dispatch, SetStateAction} from 'react'
 import Animecards from './Animecards'
 import { IAnime } from '../App';
 import axios from 'axios';
+import * as ReactSpinner from 'react-spinners';
 
 interface IProps {
     Animes: ({
@@ -31,6 +32,9 @@ interface IProps {
 }
 
 const BrowselstSection: React.FC<IProps> = ({ Animes, setAnime, title, loggedIn, SetAction, urlExtension}) => {
+    const [loading, setLoading] = useState<boolean>(true);
+
+
     useEffect(() => {
         if (loggedIn) {
             resetAnimesList()
@@ -45,20 +49,29 @@ const BrowselstSection: React.FC<IProps> = ({ Animes, setAnime, title, loggedIn,
         try {
             const favouriteAnime = await getData(urlExtension);
 
+            if (favouriteAnime.data.length > 0) {
+
             await Promise.all(favouriteAnime.data.forEach(async (animeId:string) => {
                 console.info(animeId);
                 try {
                     const fetchedAnimeData = await fetchAnimeUsingId(animeId);
                     //console.info(fetchedAnimeData.data.attributes.canonicalTitle)
                     await setData(SetAction, fetchedAnimeData.data)
+                    setLoading(false);
                 } catch(err) {
+                    setLoading(false);
                     console.error(err);
                 }
 
                 
             }));
+        } else {
+            setLoading(false);
+            console.info("NO SAVED CONTENTS")
+        }
 
-        }catch (err) {
+        } catch (err) {
+            setLoading(false);
             console.error(err);
         }        
     }
@@ -94,6 +107,10 @@ const BrowselstSection: React.FC<IProps> = ({ Animes, setAnime, title, loggedIn,
         <div className='Browselist-section'>
             <h1>{title}</h1>
             <Animecards Animes={Animes} setAnime={setAnime} isLinkActive={false}/>
+            <div className='Spinner'>
+                <ReactSpinner.BounceLoader color={"#8783D1"} loading={loading} size={75}/>
+            </div>
+            
         </div>
     )
 }

@@ -1,7 +1,7 @@
 import {Request, Response} from 'express';
 import { get } from 'lodash';
 import { cleanAnime, createEmptyAnimeList, findAnime, updateFavouriteAnimeIds, updatePlaningToWatchAnimeIds,
-        updateWatchingAnimeIds, updateCompletedAnimeIds} from '../service/anime.service';
+        updateWatchingAnimeIds, updateCompletedAnimeIds, animeAlreadyExitsInFavourites} from '../service/anime.service';
 
 export async function createEmptyAnimeListHandler(req: Request, res: Response) {
     // we should have a user becuase requiresUser middleware ran before this 
@@ -99,6 +99,10 @@ export async function updateAnimeHandler(req: Request, res: Response) {
     if (updateType == Routes.None) {
         res.status(400).send("invalid Request none animeIDs provided");
     }
+
+    const animeExists = animeAlreadyExitsInFavourites(favouriteAnimesIDs);
+    console.log(animeExists);
+
 
     var update;
 

@@ -37,6 +37,9 @@ export async function invalidateUserSessionHandler(req: Request, res: Response) 
 
     await deleteSession({ _id: sessionId});
 
+    // TODO maybe change this when using redis
+    req.session = null;
+
     return res.sendStatus(200); 
 }
 

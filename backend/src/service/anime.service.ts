@@ -20,6 +20,10 @@ export async function updateFavouriteAnimeIds(userId: string, animeIDs: any) {
     return await Anime.updateOne({userId}, {$push: {favouriteAnimesIDs: {$each: animeIDs}}})
 }
 
+export async function animeAlreadyExitsInFavourites(animeId: string) {
+
+}
+
 export async function updatePlaningToWatchAnimeIds(userId: string, animeIDs: any) {
     return await Anime.updateOne({userId}, {$push: {planingToWatchAnimeIDs: {$each: animeIDs}}})
 }
