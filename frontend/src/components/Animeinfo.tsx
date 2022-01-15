@@ -56,6 +56,12 @@ const Animeinfo: React.FC<IProps> = ({ anime }) => {
             axios.patch('http://localhost:3001/api/animes/favourites', data, {
                 withCredentials: true
             })
+            .then(res => {
+                console.info(res.data);
+            })
+            .catch(err => {
+                console.info(err.response)
+            })
 
             history.push('/');
         } else if (buttonName === 'Planingtowatch') {
@@ -65,6 +71,12 @@ const Animeinfo: React.FC<IProps> = ({ anime }) => {
 
             axios.patch('http://localhost:3001/api/animes/planingtowatch', data, {
                 withCredentials: true
+            })
+            .then(res => {
+                console.info(res.data);
+            })
+            .catch(err => {
+                console.info(err.response)
             })
 
             history.push('/Planingtowatch');
@@ -77,6 +89,12 @@ const Animeinfo: React.FC<IProps> = ({ anime }) => {
             axios.patch('http://localhost:3001/api/animes/watching', data, {
                 withCredentials: true
             })
+            .then(res => {
+                console.info(res.data);
+            })
+            .catch(err => {
+                console.info(err.response)
+            })
 
             history.push('/Watching');
         }
@@ -88,6 +106,12 @@ const Animeinfo: React.FC<IProps> = ({ anime }) => {
             axios.patch('http://localhost:3001/api/animes/completed', data, {
                 withCredentials: true
             })
+            .then(res => {
+                console.info(res.data);
+            })
+            .catch(err => {
+                console.info(err.response)
+            })  
 
             history.push('/Completed');
         }

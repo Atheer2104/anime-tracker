@@ -29,7 +29,7 @@ export interface IProps {
 const Animecards: React.FC<IProps> = ({ Animes, setAnime, isLinkActive}) => {
     return (
         <div className='Animecard'>
-           {Animes.map((anime) => (<Animecard anime={anime} setAnime={setAnime} isLinkActive={isLinkActive}/>))}
+           {Animes.map((anime) => (<Animecard key={anime.id} anime={anime} setAnime={setAnime} isLinkActive={isLinkActive}/>))}
         </div>
     )
 }

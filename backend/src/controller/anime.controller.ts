@@ -1,7 +1,8 @@
-import {Request, Response} from 'express';
+import {NextFunction, Request, Response} from 'express';
 import { get } from 'lodash';
 import { cleanAnime, createEmptyAnimeList, findAnime, updateFavouriteAnimeIds, updatePlaningToWatchAnimeIds,
-        updateWatchingAnimeIds, updateCompletedAnimeIds, animeAlreadyExitsInFavourites} from '../service/anime.service';
+        updateWatchingAnimeIds, updateCompletedAnimeIds, animeAlreadyExitsInFavourites, animeAlreadyExitsInPlaningToWatch
+        , animeAlreadyExitsInWatching, animeAlreadyExitsInCompleted} from '../service/anime.service';
 
 export async function createEmptyAnimeListHandler(req: Request, res: Response) {
     // we should have a user becuase requiresUser middleware ran before this 
@@ -100,10 +101,6 @@ export async function updateAnimeHandler(req: Request, res: Response) {
         res.status(400).send("invalid Request none animeIDs provided");
     }
 
-    const animeExists = animeAlreadyExitsInFavourites(favouriteAnimesIDs);
-    console.log(animeExists);
-
-
     var update;
 
     // update the anime data
@@ -127,4 +124,55 @@ export async function updateAnimeHandler(req: Request, res: Response) {
     // return new anime data 
 
     res.status(200).send("updated succesfully");
+}
+
+export async function checkIfAnimeExists(req: Request, res: Response, next: NextFunction) {
+    // we should have a user becuase requiresUser middleware ran before this 
+    const userId = get(req, "user._id");
+    const url = req.originalUrl;
+ 
+    // find the following anime by using userID
+    const anime = await findAnime({ userId })
+
+    // get the updated data from req.body
+    
+    // get anime ids
+    const { favouriteAnimesIDs, planingToWatchAnimeIDs, watchingAnimeIDs, completedAnimeIDs} = req.body;
+
+    const updateType = SelectedUpdateType(favouriteAnimesIDs, planingToWatchAnimeIDs, watchingAnimeIDs, completedAnimeIDs);
+    //console.log(updateType);
+
+    // make sure data is not empty
+
+    // if anime id not available retun 400 bad request 
+    if (updateType == Routes.None) {
+        res.status(400).send("invalid Request none animeIDs provided");
+    }
+
+    var animeExists;
+
+    switch (updateType) {
+        case Routes.favouriteAnimesIDs:
+            animeExists = await animeAlreadyExitsInFavourites(userId, favouriteAnimesIDs);
+            break;
+        case Routes.planingToWatchAnimeIDs:
+            animeExists = await animeAlreadyExitsInPlaningToWatch(userId, planingToWatchAnimeIDs);
+            break;
+        case Routes.watchingAnimeIDs:
+            animeExists = await animeAlreadyExitsInWatching(userId, watchingAnimeIDs);
+            break;
+        case Routes.completedAnimeIDs:
+            animeExists = await animeAlreadyExitsInCompleted(userId, completedAnimeIDs);
+            break;    
+    }
+
+    if (animeExists.length === 0) {
+        //console.info("this anime is not a duplicate");
+        //console.info(animeExists);
+        return next();
+    }
+
+    res.status(403).send("This anime is already added not accepting any duplicates");
+
+
 }

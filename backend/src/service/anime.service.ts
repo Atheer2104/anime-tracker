@@ -20,18 +20,43 @@ export async function updateFavouriteAnimeIds(userId: string, animeIDs: any) {
     return await Anime.updateOne({userId}, {$push: {favouriteAnimesIDs: {$each: animeIDs}}})
 }
 
-export async function animeAlreadyExitsInFavourites(animeId: string) {
-
+export async function animeAlreadyExitsInFavourites(userId: string, animeIds: any) {
+    //return await Anime.find({userId}).find( { favouriteAnimesIDs : '44081' });   
+    return await Anime.find({ $and : [
+        {userId},
+        { favouriteAnimesIDs : `${animeIds}` }
+    ]});
 }
 
 export async function updatePlaningToWatchAnimeIds(userId: string, animeIDs: any) {
     return await Anime.updateOne({userId}, {$push: {planingToWatchAnimeIDs: {$each: animeIDs}}})
 }
 
+export async function animeAlreadyExitsInPlaningToWatch(userId: string, animeIds: any) {
+    return await Anime.find({ $and : [
+        {userId},
+        { planingToWatchAnimeIDs : `${animeIds}` }
+    ]});
+}
+
 export async function updateWatchingAnimeIds(userId: string, animeIDs: any) {
     return await Anime.updateOne({userId}, {$push: {watchingAnimeIDs: {$each: animeIDs}}})
 }
 
+export async function animeAlreadyExitsInWatching(userId: string, animeIds: any) {
+    return await Anime.find({ $and : [
+        {userId},
+        { watchingAnimeIDs : `${animeIds}` }
+    ]});
+}
+
 export async function updateCompletedAnimeIds(userId: string, animeIDs: any) {
     return await Anime.updateOne({userId}, {$push: {completedAnimeIDs: {$each: animeIDs}}})
+}
+
+export async function animeAlreadyExitsInCompleted(userId: string, animeIds: any) {
+    return await Anime.find({ $and : [
+        {userId},
+        { completedAnimeIDs : `${animeIds}` }
+    ]});
 }

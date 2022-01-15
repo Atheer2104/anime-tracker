@@ -2,7 +2,7 @@ import {Express, Request, Response} from 'express';
 import { createUserSessionHandler, invalidateUserSessionHandler, getUserSessionsHandler} from './controller/session.controller';
 import { registerUserHandler} from './controller/user.controller';
 import { requiresUser } from './middleware/requiresUser';
-import { createEmptyAnimeListHandler, updateAnimeHandler, getAnimeHandler} from './controller/anime.controller';
+import { createEmptyAnimeListHandler, updateAnimeHandler, getAnimeHandler, checkIfAnimeExists} from './controller/anime.controller';
 import { setCookie, getCookie } from './controller/cookie.controller';
 import { sessionAlreadyExists } from './middleware/sessionHandler';
 
@@ -36,13 +36,13 @@ export default function(app: Express) {
 
 
     // update anime 
-    app.patch("/api/animes/favourites", requiresUser, updateAnimeHandler);
+    app.patch("/api/animes/favourites", requiresUser, checkIfAnimeExists, updateAnimeHandler);
 
-    app.patch("/api/animes/planingtowatch", requiresUser, updateAnimeHandler);
+    app.patch("/api/animes/planingtowatch", requiresUser, checkIfAnimeExists, updateAnimeHandler);
 
-    app.patch("/api/animes/watching", requiresUser, updateAnimeHandler);
+    app.patch("/api/animes/watching", requiresUser, checkIfAnimeExists, updateAnimeHandler);
 
-    app.patch("/api/animes/completed", requiresUser, updateAnimeHandler);
+    app.patch("/api/animes/completed", requiresUser, checkIfAnimeExists, updateAnimeHandler);
 
 
     app.get("/api/setcookie", setCookie);
