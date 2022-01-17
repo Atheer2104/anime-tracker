@@ -1,7 +1,11 @@
 import { Request, Response} from "express";
 
 export const setCookie = async (req: Request, res: Response) => {
-    req.session.jwt = "1234";
+    console.info("setCookie");
+    
+    req.session.jwt = String(1234);
+
+    console.info("cookie has been set");
 
     res.send("Cookie has been sent");
 }

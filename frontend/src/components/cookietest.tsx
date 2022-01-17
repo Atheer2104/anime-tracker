@@ -8,10 +8,10 @@ const Cookietest: React.FC = () => {
     },[])
 
     const cookie = async():Promise<any> => {
-        //const setcookie = await setCookie();
-        //console.info(setcookie);
+        const setcookie = await setCookie();
+        console.info(setcookie);
 
-        const getcookie = await getCookie();
+        //const getcookie = await getCookie();
     }
 
     const setCookie = async() => { 
