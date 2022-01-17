@@ -26,8 +26,9 @@ interface IProps {
 }
 
 const Animeinfo: React.FC<IProps> = ({ anime }) => {
-    const history = useHistory()
-    const coverImageIfNotFound: string = "https://images.unsplash.com/photo-1557682250-33bd709cbe85?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&h=800&q=80"
+    const history = useHistory();
+    const coverImageIfNotFound: string = "https://images.unsplash.com/photo-1557682250-33bd709cbe85?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&h=800&q=80";
+
     let animeObject = {
         id: anime.id,
         attributes: {
@@ -63,7 +64,7 @@ const Animeinfo: React.FC<IProps> = ({ anime }) => {
                 console.info(err.response)
             })
 
-            history.push('/');
+            history.push('/Favourites');
         } else if (buttonName === 'Planingtowatch') {
             const data = {
                 planingToWatchAnimeIDs: [animeObject.id]

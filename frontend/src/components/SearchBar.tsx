@@ -18,9 +18,10 @@ const SearchBar:React.FC<IProps> = ({ setEmptySearch, setAnimes }) => {
 
 
     const fetchAnimesBySearch = async(q: string):Promise<any> => {
-        await axios.get(`https://kitsu.io/api/edge/anime?filter%5Btext%5D=${q}&page%5Blimit%5d=20`)
+        await axios.get(`http://localhost:3001/api/animes/fetchmultipleanimes/${q}`)
         .then(res => {
-            setAnimes(res.data.data); 
+            //console.info(res.data.result.data);
+            setAnimes(res.data.result.data); 
             
         })
         .catch(err => {

@@ -93,10 +93,10 @@ const BrowselstSection: React.FC<IProps> = ({ Animes, setAnime, title, loggedIn,
     }
 
     const fetchAnimeUsingId = async(animeId: string):Promise<any> => {
-        const response = await fetch(`https://kitsu.io/api/edge/anime/${animeId}`);
+        const response = await fetch(`http://localhost:3001/api/animes/fetchsearchedanime/${animeId}`);
         const data = await response.json();
     
-        return data
+        return data.result;
     }
 
     const resetAnimesList = () => {

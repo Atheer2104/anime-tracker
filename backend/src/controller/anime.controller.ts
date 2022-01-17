@@ -1,8 +1,9 @@
 import {NextFunction, Request, Response} from 'express';
 import { get } from 'lodash';
-import { cleanAnime, createEmptyAnimeList, findAnime, updateFavouriteAnimeIds, updatePlaningToWatchAnimeIds,
+import { createEmptyAnimeList, findAnime, updateFavouriteAnimeIds, updatePlaningToWatchAnimeIds,
         updateWatchingAnimeIds, updateCompletedAnimeIds, animeAlreadyExitsInFavourites, animeAlreadyExitsInPlaningToWatch
         , animeAlreadyExitsInWatching, animeAlreadyExitsInCompleted} from '../service/anime.service';
+import axios from 'axios';
 
 export async function createEmptyAnimeListHandler(req: Request, res: Response) {
     // we should have a user becuase requiresUser middleware ran before this 
@@ -175,4 +176,43 @@ export async function checkIfAnimeExists(req: Request, res: Response, next: Next
     res.status(403).send("This anime is already added not accepting any duplicates");
 
 
+}
+
+export async function fetchTrendingAnimes(req: Request, res: Response) {
+    try {
+        const response = await axios.get("https://kitsu.io/api/edge/trending/anime");
+        const result = response.data
+
+        res.status(200).json({ result });
+    } catch (err) {
+        console.error(err);
+    }
+    
+}
+
+export async function fetchForAnimes(req: Request, res: Response) {
+    try {
+        const { searchterm } = req.params;
+
+        const response = await axios.get(`https://kitsu.io/api/edge/anime?filter%5Btext%5D=${searchterm}&page%5Blimit%5d=20`);
+        const result = response.data;
+
+        res.status(200).json({ result });
+    }catch (err) {
+        console.error(err);
+    }
+}
+
+export async function fetchForAnime(req: Request, res: Response) {
+    try {
+        const { animeId } = req.params;
+        //console.info(animeId);
+
+        const response = await axios.get(`https://kitsu.io/api/edge/anime/${animeId}`);
+        const result = response.data;
+
+        res.status(200).json({ result });
+    }catch (err) {
+        console.error(err);
+    }
 }

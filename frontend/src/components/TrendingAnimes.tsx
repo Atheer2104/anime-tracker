@@ -21,10 +21,10 @@ const TrendingAnimes:React.FC<IProps> = ({ animes, setAnimes, setAnime }) => {
   
 
   const fetchTrendingAnimes = async():Promise<any> => {
-    const response = await fetch("https://kitsu.io/api/edge/trending/anime");
+    const response = await fetch("http://localhost:3001/api/animes/fetchtrendinganimes");
     const data = await response.json();
 
-    return data
+    return data.result
 }
 
 

@@ -2,13 +2,14 @@ import {Express, Request, Response} from 'express';
 import { createUserSessionHandler, invalidateUserSessionHandler, getUserSessionsHandler} from './controller/session.controller';
 import { registerUserHandler} from './controller/user.controller';
 import { requiresUser } from './middleware/requiresUser';
-import { createEmptyAnimeListHandler, updateAnimeHandler, getAnimeHandler, checkIfAnimeExists} from './controller/anime.controller';
+import { createEmptyAnimeListHandler, updateAnimeHandler, getAnimeHandler, checkIfAnimeExists, fetchTrendingAnimes, fetchForAnimes, fetchForAnime} from './controller/anime.controller';
 import { setCookie, getCookie } from './controller/cookie.controller';
 import { sessionAlreadyExists } from './middleware/sessionHandler';
 
 
 export default function(app: Express) {
 
+    // API check
     app.get('/api/healthcheck', (req: Request, res: Response) => res.sendStatus(200));
 
     // create user 
@@ -45,9 +46,21 @@ export default function(app: Express) {
     app.patch("/api/animes/completed", requiresUser, checkIfAnimeExists, updateAnimeHandler);
 
 
+    app.get("/api/animes/fetchtrendinganimes", fetchTrendingAnimes);
+
+    app.get("/api/animes/fetchmultipleanimes/:searchterm", fetchForAnimes);
+    
+    app.get("/api/animes/fetchsearchedanime/:animeId", fetchForAnime);
+
+
+
+    // session testing only 
+
     app.get("/api/setcookie", setCookie);
 
     app.get("/api/getcookie", getCookie);
+
+    
    
 
     // delete anime - later 
